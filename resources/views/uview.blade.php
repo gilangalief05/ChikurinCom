@@ -2,7 +2,7 @@
     <x-slot:title>Username</x-slot:title>
     <div class="container mx-auto my-4 border border-secondary rounded">
         <div class="d-flex">
-            <img src="../wer6fy191bl91.jpg" class="rounded-circle m-4" height="128px">
+            <img src="/wer6fy191bl91.jpg" class="rounded-circle m-4" height="128px">
             <div class="mx-4 my-auto container-fluid d-block">
                 <a class="h2">Username<span class="material-icons mx-2">verified</span></a>
                 <br>

@@ -72,9 +72,9 @@
                 <div class="input-group w-50 mx-2 my-3">
                     <label for="form-jumlah" class="form-label">Jumlah</label>
                     <div class="input-group">
-                        <button class="btn btn-outline-secondary" type="button">-</button>
-                        <input type="text" class="form-control text-center" placeholder="1" aria-label="PPP" id="form-jumlah" disabled readonly>
-                        <button class="btn btn-outline-secondary" type="button">+</button>
+                        <button class="btn btn-outline-light" id="minus" type="button">-</button>
+                        <button class="btn btn-outline-light" id="count" type="button" disabled readonly>1</button>
+                        <button class="btn btn-outline-light" id="plus" type="button">+</button>
                     </div>
                 </div>
                 <div class="mx-2 my-3">
@@ -92,5 +92,22 @@
             </div>
         </div>
     </div>
-    
+    <script type="text/javascript">
+        let minus = document.getElementById("minus");
+        let count = document.getElementById("count");
+        let plus = document.getElementById("plus");
+
+        let countNum = 0;
+        count.innerHTML = countNum;
+
+        minus.addEventListener("click", () => {
+            countNum -= 1;
+            count.innerHTML = countNum;
+        });
+
+        plus.addEventListener("click", () => {
+            countNum += 1;
+            count.innerHTML = countNum;
+        });
+    </script>
 </x-layout>

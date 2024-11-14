@@ -15,19 +15,49 @@
             <i class="fa fa-github fa-lg me-2"></i>
             ChikurinCom
         </a>
-        <form class="d-flex align-items-center input-group w-50" role="search">
-            <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-primary material-icons" type="submit">search</button>
-            <button class="btn btn-primary dropdown-toggle input-group-text" data-bs-toggle="dropdown" aria-expanded="false"></button>
-            <ul class="dropdown-menu dropdown-menu-center input-group w-100">
-                <li class="m-1 text-center"><label for="pict-search" class="form-label">Image Search</label></li>
-                <li class="m-1"><div class="input-group">
-                    <input type="file" class="form-control" id="pict-search" aria-describedby="pict-search-addon" aria-label="Upload">
-                    <button class="btn btn-primary material-icons" type="button" id="pict-search-addon">search</button>
-                </div></li>
-            </ul>
+        <!-- Pencarian -->
+        <form action="" class="d-flex align-items-center input-group w-50" id="text_search" role="search">
+            @csrf
+            <div class="input-group">
+                <input class="form-control" type="search" placeholder="Search" aria-label="Search" required>
+                <button class="btn btn-primary material-icons" type="submit">search</button>
+                <button class="btn btn-primary" onclick="img_search_visible()" type="button">change</button>
+            </div>
         </form>
+        
+        <form action="/image_search" class="d-none align-items-center w-50" id="img_search" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="input-group">
+                <input type="file" class="form-control" id="image_for_search" name="image_for_search" required>
+                <button class="btn btn-primary material-icons" type="submit">search</button>
+                <button class="btn btn-primary" onclick="text_search_visible()" type="button">change</button>
+            </div>
+        </form>
+            
+        <script>
+
+            function text_search_visible() {
+                var img = document.getElementById("img_search");
+                var text = document.getElementById("text_search");
+                img.classList.remove("d-flex");
+                text.classList.remove("d-none");
+                img.classList.add("d-none");
+                text.classList.add("d-flex");
+            }
+            function img_search_visible() {
+                var img = document.getElementById("img_search");
+                var text = document.getElementById("text_search");
+                img.classList.remove("d-none");
+                text.classList.remove("d-flex");
+                img.classList.add("d-flex");
+                text.classList.add("d-none");
+            }
+        </script>
+        
         <div class="d-flex align-items-center">
+            <a href="/image_search" class="btn position-relative" role="button">
+                <span class="material-icons mt-1">image_search</span>
+            </a>
             <!-- Belum Login -->
             <!-- <a href="/register" role="button" class="btn btn-outline-primary m-1">Register</a>
             <a href="/login" role="button" class="btn btn-primary m-1">Login</a> -->
@@ -47,7 +77,7 @@
             <div class="dropdown d-flex align-items-center">
                 <button class="btn dropdown-toggle profile-navbar p-0" data-bs-toggle="dropdown" aria-expanded="false">
                     <span class="mx-2">username</span>
-                    <img src="../wer6fy191bl91.jpg" class="img-cover rounded-circle">
+                    <img src="/wer6fy191bl91.jpg" class="img-cover rounded-circle">
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li class="d-grid">
