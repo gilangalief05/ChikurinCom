@@ -1,28 +1,17 @@
 <x-layout>
     <x-slot:title>Item</x-slot:title>
     <style>
-        .carousel {
-            max-height: 320px;
-        }
-        .carousel-inner .carousel-item img {
-            position: relative;
-            max-height: 320px;
-        }
     </style>
     <div class="container mx-auto my-4">
         <p class="h4">Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit</p>
         <div class="d-flex">
-            <div id="carouselExampleAutoplaying" class="carousel slide w-25 mx-auto m-4" data-bs-ride="carousel">
+            <div id="carouselExampleAutoplaying" style="width: 320px; height: 320px;" class="carousel slide w-25 mx-auto m-4" data-bs-ride="carousel">
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="https://picsum.photos/480/480?random=1" class="img-cover d-flex justify-content-center" alt="...">
+                @for ($i = 0; $i < 3; $i++)
+                    <div class="carousel-item {{$i == 0 ? 'active' : '' }}">
+                        <img src="https://picsum.photos/320/320?random={{$i+1}}" class="img-cover d-flex justify-content-center" alt="...">
                     </div>
-                    <div class="carousel-item">
-                        <img src="https://picsum.photos/480/480?random=2" class="img-cover d-flex justify-content-center" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="https://picsum.photos/480/480?random=3" class="img-cover d-flex justify-content-center" alt="...">
-                    </div>
+                @endfor
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -48,14 +37,10 @@
                 <p class="h3 my-4 fw-bold">IDR 99,999,999</p>
                 <div class="my-2">
                     <div class="m-2" role="group" aria-label="Basic radio toggle button group">
-                        <input type="radio" class="btn-check" name="opsi" id="opsi1" autocomplete="off" checked>
-                        <label class="btn btn-outline-primary m-1" for="opsi1">Opsi 1</label>
-
-                        <input type="radio" class="btn-check" name="opsi" id="opsi2" autocomplete="off">
-                        <label class="btn btn-outline-primary m-1" for="opsi2">Opsi 2</label>
-
-                        <input type="radio" class="btn-check" name="opsi" id="opsi3" autocomplete="off">
-                        <label class="btn btn-outline-primary m-1" for="opsi3">Opsi 3</label>
+                    @for ($i = 1; $i <= 5; $i++)
+                        <input type="radio" class="btn-check" name="opsi" id="opsi{{ $i }}" autocomplete="off">
+                        <label class="btn btn-outline-primary m-1" for="opsi{{ $i }}">Opsi {{ $i }}</label>
+                    @endfor
                     </div>
                 </div>
                 <div class="my-4">

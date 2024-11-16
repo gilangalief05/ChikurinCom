@@ -9,8 +9,8 @@
                 <div class="col-md-3 col-lg-4 col-xl-3 mx-auto m-4">
                 <!-- Content -->
                     <a class="navbar-brand d-flex align-items-center mb-4">
-                        <i class="fa fa-github fa-lg me-2"></i>
-                        ChikurinCom
+                        <img src="/chikurincom_logo.svg" class="mx-1" width="24px" alt="Logo Chikurincom">
+                        <span class="mx-2">ChikurinCom</span>
                     </a>
                     <p>
                         Here you can use rows and columns to organize your footer content. Lorem ipsum
@@ -72,7 +72,7 @@
     <!-- Copyright -->
     <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
         © 2024 Copyright:
-        <a class="text-reset fw-bold" href="https://127.0.0.1/">127.0.0.1</a>
+        <a class="text-reset fw-bold" href="http://www.chikurincom.net/">Chikurincom</a>
     </div>
     <!-- Copyright -->
 </footer>

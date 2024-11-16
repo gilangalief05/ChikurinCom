@@ -5,6 +5,7 @@ use App\Http\Controllers\promoCarController;
 use App\Http\Controllers\ImageSearchController;
 use Psy\Util\Str;
 
+// php artisan serve --host=www.chikurincom.net
 // GET or view
 // Home
 Route::get('/', [promoCarController::class, 'view_banner']);
@@ -20,31 +21,38 @@ Route::get('/login', function () {
 });
 
 // Group view
+Route::get('/g/{category}/{page}', function (string $category, string $page) {
+    return view('gview', ['category' => $category, 'page' => $page]);
+})->whereIn('category', ['all', 'monitor', 'laptop', 'mobile', 'pc'])->whereNumber('page');
+
 Route::get('/g/{category}', function (string $category) {
-    return view('gview');
+    return redirect('/g/'.$category.'/1');
 });
 
 // Promotion
+Route::get('/promotion/{promo_id}', function (string $promo_id) {
+    return view('promotion');
+});
+
 Route::get('/promotion', function () {
     return view('promotion');
 });
 
-// Overview
-Route::get('/u/{uid}/overview', function (string $uid) {
-    return view('uview');
-});
+// Profile - Overview
 Route::get('/u/{uid}', function (string $uid) {
     return redirect('/u/'.$uid.'/overview');
 });
 
-// Wishlist
-Route::get('/u/{uid}/wishlist', function (string $uid) {
-    return view('uwishlist');
-});
+// Profile {other}
+Route::get('/u/{uid}/{menu}', function (string $uid, string $menu) {
+    $menu_list = ['overview', 'comments', 'notifications', 'wishlists', 'carts', 'buy_history'];
+    $menu_name_list = ['Overview', 'Komentar', 'Notifikasi', 'Wishlist', 'Keranjang', 'Riwayat Pembelian'];
+    return view($menu, ['menu' => $menu, 'menu_list' => $menu_list, 'menu_name_list' => $menu_name_list]);
+})->whereIn('menu', ['overview', 'comments', 'notifications', 'wishlists', 'carts', 'buy_history']);
 
-// Notification
-Route::get('/u/{uid}/notification', function (string $uid) {
-    return view('unotification');
+// Profile - Edit
+Route::get('/u/{uid}/edit_user', function (string $uid) {
+    return view('edituser');
 });
 
 // Item

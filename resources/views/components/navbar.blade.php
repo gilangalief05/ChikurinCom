@@ -12,8 +12,8 @@
 <nav class="navbar bg-body-tertiary">
     <div class="container-fluid">
         <a href="/" class="navbar-brand d-flex align-items-center">
-            <i class="fa fa-github fa-lg me-2"></i>
-            ChikurinCom
+            <img src="/chikurincom_logo.svg" class="mx-1" width="24px" alt="Logo Chikurincom">
+            <span class="mx-2">ChikurinCom</span>
         </a>
         <!-- Pencarian -->
         <form action="" class="d-flex align-items-center input-group w-50" id="text_search" role="search">
@@ -21,7 +21,7 @@
             <div class="input-group">
                 <input class="form-control" type="search" placeholder="Search" aria-label="Search" required>
                 <button class="btn btn-primary material-icons" type="submit">search</button>
-                <button class="btn btn-primary" onclick="img_search_visible()" type="button">change</button>
+                <button class="btn btn-primary" onclick="img_search_visible()" type="button">text</button>
             </div>
         </form>
         
@@ -30,12 +30,11 @@
             <div class="input-group">
                 <input type="file" class="form-control" id="image_for_search" name="image_for_search" required>
                 <button class="btn btn-primary material-icons" type="submit">search</button>
-                <button class="btn btn-primary" onclick="text_search_visible()" type="button">change</button>
+                <button class="btn btn-primary" onclick="text_search_visible()" type="button">image</button>
             </div>
         </form>
             
         <script>
-
             function text_search_visible() {
                 var img = document.getElementById("img_search");
                 var text = document.getElementById("text_search");
@@ -62,13 +61,13 @@
             <!-- <a href="/register" role="button" class="btn btn-outline-primary m-1">Register</a>
             <a href="/login" role="button" class="btn btn-primary m-1">Login</a> -->
             <!-- Sudah Login -->
-            <a href="#" class="btn position-relative" role="button" data-bs-toggle="button">
+            <a href="/u/1/carts" class="btn position-relative" role="button">
                 <span class="material-icons mt-1">shopping_cart</span>
                 <span class="position-absolute top-10 start-90 translate-middle p-1 bg-danger rounded-circle">
                     <span class="visually-hidden">New alerts</span>
                 </span>
             </a>
-            <a href="#" class="btn" role="button" data-bs-toggle="button">
+            <a href="/u/1/notifications" class="btn" role="button">
                 <span class="material-icons mt-1">notifications</span>
                 <span class="position-absolute top-10 start-90 translate-middle p-1 bg-danger rounded-circle">
                     <span class="visually-hidden">New alerts</span>
@@ -86,7 +85,7 @@
                         </a>
                     </li>
                     <li class="d-grid">
-                        <a href="/u/1/wishlist" role="button" class="btn text-start d-flex align-items-center">
+                        <a href="/u/1/wishlists" role="button" class="btn text-start d-flex align-items-center">
                             <span class="material-icons">bookmark</span> Wishlist
                         </a>
                     </li>

@@ -48,36 +48,14 @@
     </div>
     
     <div class="container mx-auto my-4">
-        <h4>Promosi</h4>
+        <h4>Barang Terbaru</h4>
         <div class="grid m-2">
-            <a href="/i/1" class="btn btn-primary text-start col m-2" role="button">
-                <img src="https://picsum.photos/200/200?random=1" class="my-1">
-                <br>Title</br>
-                <h5>IDR 99.999.999</h5>
-            </a>
-            <a href="/i/2" class="btn btn-primary text-start col m-2" role="button">
-                <img src="https://picsum.photos/200/200?random=2" class="my-1">
-                <br>Title</br>
-                <h5>IDR 99.999.999</h5>
-            </a>
-            <a href="/i/3" class="btn btn-primary text-start col m-2" role="button">
-                <img src="https://picsum.photos/200/200?random=3" class="my-1">
-                <br>Title</br>
-                <h5>IDR 99.999.999</h5>
-            </a>
-            <a href="/i/4" class="btn btn-primary text-start col m-2" role="button">
-                <img src="https://picsum.photos/200/200?random=4" class="my-1">
-                <br>Title</br>
-                <h5>IDR 99.999.999</h5>
-            </a>
-            <a href="/i/5" class="btn btn-primary text-start col m-2" role="button">
-                <img src="https://picsum.photos/200/200?random=5" class="my-1">
-                <br>Title</br>
-                <h5>IDR 99.999.999</h5>
-            </a>
+        @for ($i = 1; $i <= 10; $i++)
+            <x-itemcontainer :iid=$i></x-itemcontainer>
+        @endfor
         </div>
         <div class="text-end">
-            <a href="./promotion" class="btn">Lainnya</a>
+            <a href="/g/all" class="btn">Lainnya</a>
         </div>
     </div>
     <!--[if lt IE 7]>
