@@ -2,8 +2,10 @@
 
 namespace App\View\Components;
 
+use App\Models\UsersPicture;
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
 
 class navbar extends Component
@@ -21,6 +23,12 @@ class navbar extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.navbar');
+        if(Auth::check()) {
+            $filename = UsersPicture::where('user_id', Auth::id())->first();
+            return view('components.navbar')->with('filename', $filename->filename);
+        }
+        else {
+            return view('components.navbar');
+        }
     }
 }

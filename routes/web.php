@@ -1,11 +1,16 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\promoCarController;
 use App\Http\Controllers\ImageSearchController;
-use Psy\Util\Str;
+use App\Http\Controllers\promoCarController;
+use App\Models\User;
+use App\Models\UsersPicture;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
-// php artisan serve --host=www.chikurincom.net
+// Route::get('/', function () {
+//     return ['Laravel' => app()->version()];
+// });
+
 // GET or view
 // Home
 Route::get('/', [promoCarController::class, 'view_banner']);
@@ -29,7 +34,7 @@ Route::get('/g/{category}', function (string $category) {
     return redirect('/g/'.$category.'/1');
 });
 
-// Promotion
+// Promotion (sementara belum ada)
 Route::get('/promotion/{promo_id}', function (string $promo_id) {
     return view('promotion');
 });
@@ -41,24 +46,29 @@ Route::get('/promotion', function () {
 // Profile - Overview
 Route::get('/u/{uid}', function (string $uid) {
     return redirect('/u/'.$uid.'/overview');
-});
+})->whereNumber('uid');
 
 // Profile {other}
 Route::get('/u/{uid}/{menu}', function (string $uid, string $menu) {
     $menu_list = ['overview', 'comments', 'notifications', 'wishlists', 'carts', 'buy_history'];
     $menu_name_list = ['Overview', 'Komentar', 'Notifikasi', 'Wishlist', 'Keranjang', 'Riwayat Pembelian'];
-    return view($menu, ['menu' => $menu, 'menu_list' => $menu_list, 'menu_name_list' => $menu_name_list]);
-})->whereIn('menu', ['overview', 'comments', 'notifications', 'wishlists', 'carts', 'buy_history']);
+    $uname = User::where('id', $uid)->first();
+    $filename = UsersPicture::where('user_id', $uid)->first();
+    return view($menu, ['menu' => $menu, 'menu_list' => $menu_list, 'menu_name_list' => $menu_name_list, 'uid' => $uid, 'uname' => $uname->name, 'filename' => $filename->filename]);
+})->whereIn('menu', ['overview', 'comments', 'notifications', 'wishlists', 'carts', 'buy_history'])->whereNumber('uid');
 
 // Profile - Edit
 Route::get('/u/{uid}/edit_user', function (string $uid) {
-    return view('edituser');
-});
+    if(Auth::id() != $uid) {
+        abort(403);
+    }
+    return view('edituname', ['name' => Auth::user()->name, 'uid' => Auth::id(), 'email' => Auth::user()->email]);
+})->whereNumber('uid');
 
 // Item
 Route::get('/i/{iid}', function (string $iid) {
     return view('iview');
-});
+})->whereNumber('iid');
 
 // Image search (optional)
 Route::view('/image_search', 'imagesearch');
@@ -66,3 +76,4 @@ Route::view('/image_search', 'imagesearch');
 // POST
 Route::post('/image_search', [ImageSearchController::class, 'image_search']);
 
+require __DIR__.'/auth.php';

@@ -54,20 +54,17 @@
         </script>
         
         <div class="d-flex align-items-center">
-            <a href="/image_search" class="btn position-relative" role="button">
-                <span class="material-icons mt-1">image_search</span>
-            </a>
-            <!-- Belum Login -->
-            <!-- <a href="/register" role="button" class="btn btn-outline-primary m-1">Register</a>
-            <a href="/login" role="button" class="btn btn-primary m-1">Login</a> -->
-            <!-- Sudah Login -->
-            <a href="/u/1/carts" class="btn position-relative" role="button">
+            @if (!Auth::check())
+            <a href="/register" role="button" class="btn btn-outline-primary m-1">Register</a>
+            <a href="/login" role="button" class="btn btn-primary m-1">Login</a>
+            @else
+            <a href="/u/{{ Auth::id() }}/carts" class="btn position-relative" role="button">
                 <span class="material-icons mt-1">shopping_cart</span>
                 <span class="position-absolute top-10 start-90 translate-middle p-1 bg-danger rounded-circle">
                     <span class="visually-hidden">New alerts</span>
                 </span>
             </a>
-            <a href="/u/1/notifications" class="btn" role="button">
+            <a href="/u/{{ Auth::id() }}/notifications" class="btn" role="button">
                 <span class="material-icons mt-1">notifications</span>
                 <span class="position-absolute top-10 start-90 translate-middle p-1 bg-danger rounded-circle">
                     <span class="visually-hidden">New alerts</span>
@@ -75,27 +72,29 @@
             </a>
             <div class="dropdown d-flex align-items-center">
                 <button class="btn dropdown-toggle profile-navbar p-0" data-bs-toggle="dropdown" aria-expanded="false">
-                    <span class="mx-2">username</span>
-                    <img src="/wer6fy191bl91.jpg" class="img-cover rounded-circle">
+                    <span class="mx-2">{{ Auth::user()->name }}</span>
+                    <img src="{{ asset('storage/profile_picture/'.$filename) }}" class="img-cover rounded-circle">
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li class="d-grid">
-                        <a href="/u/1" role="button" class="btn text-start d-flex align-items-center">
+                        <a href="/u/{{ Auth::id() }}" role="button" class="btn text-start d-flex align-items-center">
                             <span class="material-icons">person</span> Profil
                         </a>
                     </li>
                     <li class="d-grid">
-                        <a href="/u/1/wishlists" role="button" class="btn text-start d-flex align-items-center">
+                        <a href="/u/{{ Auth::id() }}/wishlists" role="button" class="btn text-start d-flex align-items-center">
                             <span class="material-icons">bookmark</span> Wishlist
                         </a>
                     </li>
                     <li class="d-grid">
-                        <a href="#" role="button" class="btn text-danger text-start d-flex align-items-cente">
-                            <span class="material-icons">logout</span> Log Out
-                        </a>
+                        <form action="/logout" method="POST" class="">
+                            @csrf
+                            <button class="btn text-danger text-start d-flex align-items-center" type="submit"><span class="material-icons">logout</span> Log Out</button>
+                        </form>
                     </li>
                 </ul>
             </div>
+            @endif
         </div>
     </div>
 </nav>

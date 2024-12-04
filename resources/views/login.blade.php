@@ -7,21 +7,22 @@
         </div>
         <div class="vr m-4"></div>
         <div class="my-4 px-4 container-fluid">
-            <h2 class="m-2">Register</h2>
-            <div class="m-4">
+            <h2 class="m-2">Log In</h2>
+            <form class="m-4" action="/login" method="POST" enctype="multipart/form-data">
+                @csrf
                 <div class="mb-3">
                     <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" placeholder="">
+                    <input type="email" class="form-control" name="email" id="email" placeholder="">
                 </div>
                 <div class="mb-3">
                     <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="">
+                    <input type="password" class="form-control" name="password" id="password" placeholder="">
                 </div>
                 <p>Belum memiliki akun? <span><a href="/register">Register</a></span></p>
-            </div>
-            <div class="text-end m-2">
-                <button type="submit" class="btn btn-primary">Login</button>
-            </div>
+                <div class="text-end m-2">
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </div>
+            </form>
         </div>
     </div>
 </x-layout>
