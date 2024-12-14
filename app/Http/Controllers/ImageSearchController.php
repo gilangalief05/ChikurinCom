@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use InferenceHTTPClient;
+use GuzzleHttp\Client;
 
 class ImageSearchController extends Controller
 {
@@ -17,28 +17,54 @@ class ImageSearchController extends Controller
         // Simpan gambar sementara
         $image = $request->file('image_for_search');
         $imagePath = $image->store('temp', 'public');
+        $imageFullPath = public_path('storage/' . $imagePath);
 
-        // Inference dengan model ML
-        $client = new InferenceHTTPClient([
-            'api_url' => 'https://detect.roboflow.com',
-            'api_key' => 'mPwxwtAPAt2YuUGe8mwR',
-        ]);
+        // URL dan API key Roboflow
+        $apiUrl = "https://detect.roboflow.com/detection-of-laptop-and-phone/1";
+        $apiKey = "mPwxwtAPAt2YuUGe8mwR";
 
-        $result = $client->infer(
-            public_path('storage/' . $imagePath),
-            model_id: 'detection-of-laptop-and-phone/1'
-        );
+        try {
+            // Kirim gambar ke API menggunakan Guzzle
+            $client = new Client();
+            $response = $client->post("{$apiUrl}?api_key={$apiKey}", [
+                'multipart' => [
+                    [
+                        'name' => 'file',
+                        'contents' => fopen($imageFullPath, 'r'),
+                    ],
+                ],
+            ]);
 
-        // Proses hasil deteksi
-        $prediction = $result['predictions'][0]['class'] ?? null;
+            $body = json_decode($response->getBody(), true);
+            $predictions = $body['predictions'] ?? [];
+            $accuracy = $body['accuracy'] ?? null;
 
-        // Arahkan sesuai hasil deteksi
-        if ($prediction === 'laptop') {
-            return redirect('/g/laptop/1');
-        } elseif ($prediction === 'mobile') {
-            return redirect('/g/mobile/1');
-        } else {
-            return back()->with('error', 'Gambar tidak termasuk ke dalam kategori yang ada.');
+            // Ambil prediksi utama (confidence tertinggi)
+            $detections = [];
+            foreach ($predictions as $prediction) {
+                $detections[] = [
+                    'class' => $prediction['class'],
+                    'confidence' => $prediction['confidence'],
+                ];
+            }
+
+            $primaryPrediction = collect($detections)->sortByDesc('confidence')->first();
+            $category = $primaryPrediction['class'] ?? null;
+
+            if ($category) {
+                return view('imagesearchresult', [
+                    'image_search_name' => $imagePath,
+                    'category' => $category,
+                    'accuracy' => $accuracy,
+                    'detections' => $detections,
+                ]);
+            } else {
+                // Tidak ada kategori yang terdeteksi
+                return back()->with('error', 'Gambar tidak termasuk ke dalam kategori yang dapat dideteksi.');
+            }
+        } catch (\Exception $e) {
+            // Tangani kesalahan saat request ke API
+            return back()->with('error', 'Gagal memproses gambar: ' . $e->getMessage());
         }
     }
 }
