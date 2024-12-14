@@ -8,6 +8,11 @@
             </a>
             <div>Image Search</div>
         </div>
+        @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+        @endif
         <form action="/image_search" class="container align-items-center w-50" id="img_search" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="input-group">

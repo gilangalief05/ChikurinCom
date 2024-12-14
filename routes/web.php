@@ -71,7 +71,9 @@ Route::get('/i/{iid}', function (string $iid) {
 })->whereNumber('iid');
 
 // Image search (optional)
-Route::view('/image_search', 'imagesearch');
+Route::get('/image_search', function(){
+    return view('imagesearch');
+});
 
 // POST
 Route::post('/image_search', [ImageSearchController::class, 'image_search']);
