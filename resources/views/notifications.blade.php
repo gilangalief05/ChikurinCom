@@ -15,7 +15,7 @@
         </div>
         <div class="m-4">
             <p class="h2">Notifikasi</p>
-            @for ($i = 0; $i < 10; $i++)
+            @for ($i = 0; $i < 0; $i++)
                 <x-notificationcontainer></x-notificationcontainer>
             @endfor
         </div>

@@ -12,11 +12,11 @@ class UsersBioController extends Controller
     public function update(Request $request): RedirectResponse
     {
         $request->validate([
-            'bio' => ['required', 'string', 'max:2000'],
+            'bio' => ['nullable', 'string', 'max:2000'],
         ]);
 
         $user = UsersBio::find(Auth::id());
-        $user->bio = $request->bio;
+        $user->bio = $request->bio ?? "";
         $user->save();
 
         return redirect()->back();

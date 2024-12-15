@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\UsersPicture;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,6 +29,28 @@ class ProfileController extends Controller
         return Redirect::route('home');
     }
 
+    public function update_photo(Request $request): RedirectResponse
+    {
+        $user = $request->user();
+
+        $file = UsersPicture::find($request->uid);
+        Storage::disk('public')->delete('profile_picture/'.$file->filename);
+
+        $upload = $request->filename;
+        $filename = "default.jpg";
+
+        if($request->has('filename')) {
+            $extension = $upload->getClientOriginalExtension();
+            $filename = $user->id.'.'.$extension;
+            $path = $upload->storeAs('profile_picture/', $user->id.'.'.$extension, 'public');
+        }
+
+        $file->filename = $filename;
+        $file->save();
+
+        return redirect()->back();
+    }
+
     /**
      * Delete the user's account.
      */
@@ -36,11 +59,8 @@ class ProfileController extends Controller
 
         $user = $request->user();
 
-        $files = Storage::disk('public')->files('profile_picture');
-        $path = pathinfo($files[$user->id]);
-        $extension = $path['extension'];
-
-        Storage::disk('public')->delete('profile_picture/'.$user->id.'.'.$extension);
+        $filename = UsersPicture::find($user->id)->filename;
+        Storage::disk('public')->delete('profile_picture/'.$filename);
 
         Auth::logout();
 

@@ -61,6 +61,7 @@ Route::middleware('user')->group(function () {
 
 // Profile - Edit
 Route::get('/edit_user', [ProfileController::class, 'edit'])->middleware('auth')->name('user.edit');
+Route::patch('/edit_user_photo', [ProfileController::class, 'update_photo'])->middleware('auth')->name('user_photo.update');
 
 // Post Item
 Route::middleware('admin')->group(function () {

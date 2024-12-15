@@ -3,7 +3,7 @@
     <div class="container border border-secondary mx-auto w-50 my-4 d-flex justify-content-around rounded">
         <div class="text-center mx-4 my-auto w-25">
             <img src="/chikurincom_logo.svg" class="m-1" width="64px" alt="Logo Chikurincom">
-            <p class="">ChikurinCom</p>
+            <p class="">ChikurinKom</p>
         </div>
         <div class="vr m-4"></div>
         <div class="my-4 px-4 container-fluid">

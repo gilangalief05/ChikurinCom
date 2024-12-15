@@ -8,7 +8,7 @@
             @if(Auth::id() == $user->id)
             <div>
                 <button class="btn btn-primary w-25 m-1" data-bs-toggle="modal" data-bs-target="#editNameModal">
-                    Edit Akun
+                    Edit Nama
                 </button>
                 <div class="modal fade" id="editNameModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editName" aria-hidden="true">
                     <div class="modal-dialog">
@@ -38,6 +38,15 @@
                         </div>
                     </div>
                 </div>
+                <form class="m-1 d-inline" action="{{route('user_photo.update')}}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PATCH')
+                    <input name="uid" value="{{ $user->id }}" hidden>
+                    <label for="image_upload" style="cursor: pointer;" class="btn btn-primary w-25">
+                        Ubah foto profil
+                    </label>
+                    <input type="file" style="display: none;" id="image_upload" class="btn btn-primary" name="filename" placeholder="" onchange="this.form.submit()">
+                </form>
                 <button class="btn btn-danger w-25 m-1" data-bs-toggle="modal" data-bs-target="#deleteUserModal">
                     Hapus Akun
                 </button>
@@ -62,6 +71,8 @@
                         </div>
                     </div>
                 </div>
+                <style>
+                </style>
             </div>
             @endif
         </div>

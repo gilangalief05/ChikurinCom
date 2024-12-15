@@ -5,7 +5,7 @@
     <div class="ms-4 me-1 my-1">
         <p class="h5">{{$buyhistory->name}}</p>
         <p class="mb-2">Jumlah: {{$buyhistory->total}}</p>
-        <p class="mb-2">Total harga: IDR {{number_format($buyhistory->price, 2, ',', '.')}}</p>
+        <p class="mb-2">Total harga: IDR {{number_format($buyhistory->total_price, 2, ',', '.')}}</p>
         <p class="mb-2">Status: {{$buyhistory->status}}</p>
     </div>
 </div>
