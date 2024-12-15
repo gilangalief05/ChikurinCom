@@ -1,10 +1,16 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentsController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageSearchController;
-use App\Http\Controllers\promoCarController;
-use App\Models\User;
-use App\Models\UsersPicture;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ItemsController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\TransactionsController;
+use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\WishlistsController;
+use App\Models\Wishlists;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -13,32 +19,26 @@ use Illuminate\Support\Facades\Route;
 
 // GET or view
 // Home
-Route::get('/', [promoCarController::class, 'view_banner']);
+Route::get('/', [HomeController::class, 'view'])->name('home');
 
 // Register
 Route::get('/register', function () {
     return view('register');
-});
+})->middleware('guest')->name('get.register');
 
 // Login
 Route::get('/login', function () {
     return view('login');
-});
+})->middleware('guest')->name('get.login');
 
 // Group view
-Route::get('/g/{category}/{page}', function (string $category, string $page) {
-    return view('gview', ['category' => $category, 'page' => $page]);
-})->whereIn('category', ['all', 'monitor', 'laptop', 'mobile', 'pc'])->whereNumber('page');
+Route::get('/g/{category}/{page}', [CategoryController::class, 'get'])->whereIn('category', ['all', 'monitor', 'laptop', 'mobile', 'pc'])->whereNumber('page');
 
 Route::get('/g/{category}', function (string $category) {
     return redirect('/g/'.$category.'/1');
-});
+})->name('item.category');
 
 // Promotion (sementara belum ada)
-Route::get('/promotion/{promo_id}', function (string $promo_id) {
-    return view('promotion');
-});
-
 Route::get('/promotion', function () {
     return view('promotion');
 });
@@ -48,34 +48,58 @@ Route::get('/u/{uid}', function (string $uid) {
     return redirect('/u/'.$uid.'/overview');
 })->whereNumber('uid');
 
-// Profile {other}
-Route::get('/u/{uid}/{menu}', function (string $uid, string $menu) {
-    $menu_list = ['overview', 'comments', 'notifications', 'wishlists', 'carts', 'buy_history'];
-    $menu_name_list = ['Overview', 'Komentar', 'Notifikasi', 'Wishlist', 'Keranjang', 'Riwayat Pembelian'];
-    $uname = User::where('id', $uid)->first();
-    $filename = UsersPicture::where('user_id', $uid)->first();
-    return view($menu, ['menu' => $menu, 'menu_list' => $menu_list, 'menu_name_list' => $menu_name_list, 'uid' => $uid, 'uname' => $uname->name, 'filename' => $filename->filename]);
-})->whereIn('menu', ['overview', 'comments', 'notifications', 'wishlists', 'carts', 'buy_history'])->whereNumber('uid');
+// Profile - Guest
+Route::get('/u/{uid}/overview', [UserProfileController::class, 'overview'])->whereNumber('uid')->name('user.overview');
+Route::get('/u/{uid}/comments', [UserProfileController::class, 'comments'])->whereNumber('uid')->name('user.comments');
 
-// Profile - Edit
-Route::get('/u/{uid}/edit_user', function (string $uid) {
-    if(Auth::id() != $uid) {
-        abort(403);
-    }
-    return view('edituname', ['name' => Auth::user()->name, 'uid' => Auth::id(), 'email' => Auth::user()->email]);
-})->whereNumber('uid');
-
-// Item
-Route::get('/i/{iid}', function (string $iid) {
-    return view('iview');
-})->whereNumber('iid');
-
-// Image search (optional)
-Route::get('/image_search', function(){
-    return view('imagesearch');
+// Profile - Auth
+Route::middleware('user')->group(function () {
+    Route::get('/u/{uid}/notifications', [UserProfileController::class, 'notifications'])->whereNumber('uid')->name('user.notifications');
+    Route::get('/u/{uid}/wishlists', [UserProfileController::class, 'wishlists'])->whereNumber('uid')->name('user.wishlists');
+    Route::get('/u/{uid}/buy_history', [UserProfileController::class, 'buy_history'])->whereNumber('uid')->name('user.buy_history');
 });
 
+// Profile - Edit
+Route::get('/edit_user', [ProfileController::class, 'edit'])->middleware('auth')->name('user.edit');
+
+// Post Item
+Route::middleware('admin')->group(function () {
+    Route::get('/item', [ItemsController::class, 'form'])->name('item.form');
+    Route::post('/item', [ItemsController::class, 'store'])->name('item.store');
+    Route::patch('/item', [ItemsController::class, 'update'])->name('item.update');
+    Route::delete('/item', [ItemsController::class, 'destroy'])->name('item.delete');
+});
+
+// Wishlist
+Route::middleware('auth')->group(function () {
+    Route::post('/wishlist', [WishlistsController::class, 'store'])->name('wishlist.store');
+    Route::delete('/wishlist', [WishlistsController::class, 'destroy'])->name('wishlist.delete');
+});
+
+// Transaction
+Route::middleware('admin')->group(function () {
+    Route::get('/transaction', [TransactionsController::class, 'view'])->name('transaction.list');
+    Route::patch('/transaction', [TransactionsController::class, 'update'])->name('transaction.update');
+});
+
+Route::post('/transaction', [TransactionsController::class, 'store'])->middleware('auth')->name('transaction.store');
+
+// Comment
+Route::middleware('auth')->group(function () {
+    Route::post('/comment', [CommentsController::class, 'store'])->name('comment.store');
+    Route::delete('/comment', [CommentsController::class, 'destroy'])->name('comment.delete');
+});
+
+// Item
+Route::get('/i/{iid}', [ItemsController::class, 'get'])->whereNumber('iid')->name('item.view');
+
+// Text Search
+Route::get('/search', [SearchController::class, 'get'])->name('search.get');
+
+// Image search (optional)
+Route::view('/image_search', 'imagesearch')->name('image_search.form');
+
 // POST
-Route::post('/image_search', [ImageSearchController::class, 'image_search']);
+Route::post('/image_search', [ImageSearchController::class, 'image_search'])->name('image_search.upload');
 
 require __DIR__.'/auth.php';

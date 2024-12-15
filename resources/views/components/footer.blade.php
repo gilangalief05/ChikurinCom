@@ -10,11 +10,10 @@
                 <!-- Content -->
                     <a class="navbar-brand d-flex align-items-center mb-4">
                         <img src="/chikurincom_logo.svg" class="mx-1" width="24px" alt="Logo Chikurincom">
-                        <span class="mx-2">ChikurinCom</span>
+                        <span class="mx-2">ChikurinKom</span>
                     </a>
                     <p>
-                        Here you can use rows and columns to organize your footer content. Lorem ipsum
-                        dolor sit amet, consectetur adipisicing elit.
+                        ChikurinKom merupakan website toko ChikurinKom yang dapat melakukan pembelian secara online
                     </p>
                     <div>
                         <a href="" class="me-4 text-reset">
@@ -72,7 +71,7 @@
     <!-- Copyright -->
     <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
         © 2024 Copyright:
-        <a class="text-reset fw-bold" href="http://www.chikurincom.net/">Chikurincom</a>
+        <a class="text-reset fw-bold" href="">ChikurinKom</a>
     </div>
     <!-- Copyright -->
 </footer>

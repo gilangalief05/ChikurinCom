@@ -27,7 +27,7 @@
                     <input type="password" class="form-control" name="password" id="password" placeholder="" required>
                 </div>
                 <div class="mb-3">
-                    <label for="password_confirmation">Password</label>
+                    <label for="password_confirmation">Konfirmasi Password</label>
                     <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" placeholder="" required>
                 </div>
                 <p>Sudah memiliki akun? <span><a href="/login">Log in</a></span></p>

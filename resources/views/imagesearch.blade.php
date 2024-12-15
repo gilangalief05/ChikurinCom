@@ -4,7 +4,7 @@
         <div class="container text-center my-5">
             <a class="display-3 text-light">
                 <img src="/chikurincom_logo.svg" class="mx-2" width="64px" alt="Logo Chikurincom">
-                <span class="mx-3">ChikurinCom</span>
+                <span class="mx-3">ChikurinKom</span>
             </a>
             <div>Image Search</div>
         </div>

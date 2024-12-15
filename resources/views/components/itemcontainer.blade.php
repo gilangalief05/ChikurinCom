@@ -1,5 +1,7 @@
-<a href="/i/{{ $iid }}" class="btn btn-primary text-start col m-2" role="button">
-    <img src="https://picsum.photos/200/200?random={{ $iid }}" class="my-1">
-    <br>Title</br>
-    <h5>IDR 99.999.999</h5>
+<a href="/i/{{ $item->id }}" class="btn btn-primary text-start col-2 m-2" role="button">
+    <div class="ratio ratio-1x1">
+        <img src="{{ asset('/storage/'.$item->thumbnail) }}" class="my-1 object-fit-cover w-100 h-100">
+    </div>
+    <br>{{ $item->name }}</br>
+    <h5>IDR {{ number_format($item->price, 2, ',', '.') }}</h5>
 </a>

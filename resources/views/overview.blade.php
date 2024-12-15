@@ -1,25 +1,47 @@
 <x-layout>
-    <x-slot:title>{{ $uname }} - Overview</x-slot:title>
-    <x-profile uid="{{ $uid }}" uname="{{ $uname }}" filename="{{ $filename }}" />
+    <x-slot:title>{{ $user->name }} - Overview</x-slot:title>
+    <x-profile :$user />
     <div class="container mx-auto my-4">
         <div class="my-2">
             <ul class="nav nav-tabs w-100">
                 @foreach($menu_list as $id => $menu_l)
-                <li class="nav-item">
-                    <a class="nav-link {{$menu_l == $menu ? 'active' : '' }}" aria-current="page" href="/u/{{ $uid }}/{{ $menu_l }}">{{ $menu_name_list[$id] }}</a>
-                </li>
+                    @if(Auth::id() == $user->id || $id < 2)
+                    <li class="nav-item">
+                        <a class="nav-link {{$menu_l == $menu ? 'active' : '' }}" aria-current="page" href="{{route('user.'.$menu_l, ['uid' => $user->id])}}">{{ $menu_name_list[$id] }}</a>
+                    </li>
+                    @endif
                 @endforeach
             </ul>
         </div>
         <div class="m-4">
             <p class="h2">Overview</p>
-            <a>
-                &emsp; Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sed pulvinar neque, ac facilisis diam. Curabitur et pretium augue. Nulla vehicula ipsum ut varius consectetur. Aliquam a sagittis nulla. Proin ac hendrerit ante. Aliquam rhoncus erat id orci consectetur eleifend. Aenean ornare lacus fermentum lectus sagittis bibendum. Donec pulvinar fermentum placerat. Proin et elementum quam, varius vehicula urna. Donec ut est at dui aliquam lacinia ut in nisl. Phasellus quis sem quis erat convallis consectetur nec non neque. Sed et sodales nulla, quis imperdiet nunc. Nam arcu nibh, faucibus vestibulum posuere sed, fermentum non nibh. Nulla nibh nunc, ornare quis dapibus sit amet, egestas at orci. Etiam pellentesque imperdiet sapien, eget vestibulum arcu facilisis eu.
-            </a>
-            <br>
-            <a>
-                &emsp; Etiam lacinia faucibus molestie. Donec condimentum aliquam elit vel iaculis. Nullam faucibus urna tortor, at posuere elit dapibus in. Nam quis ornare tortor, vitae porttitor dui. Nunc leo augue, accumsan id condimentum non, venenatis ac felis. Cras nec nisi massa. Phasellus consequat egestas commodo. Nulla malesuada urna gravida pulvinar hendrerit. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse viverra, nulla nec pretium varius, turpis massa ornare dolor, id dapibus ante erat id tortor. Duis commodo nisl vitae tortor fringilla pellentesque.
-            </a>
+            @if(Auth::id() == $user->id)
+            <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#bioModal">
+                Edit Bio
+            </button>
+            <div class="modal fade" id="bioModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editBio" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form class="m-0" action="{{route('bio.update')}}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="editBio">Edit Bio</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <textarea name="bio" id="bio" class="form-control" style="height: 128px;">{{$bio ?? ""}}</textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Selesai</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            @endif
+            <p>
+                {{$bio ?? ""}}
+            </p>
         </div>
     </div>
     

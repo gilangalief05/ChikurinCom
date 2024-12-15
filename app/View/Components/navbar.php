@@ -24,8 +24,8 @@ class navbar extends Component
     public function render(): View|Closure|string
     {
         if(Auth::check()) {
-            $filename = UsersPicture::where('user_id', Auth::id())->first();
-            return view('components.navbar')->with('filename', $filename->filename);
+            $filename = UsersPicture::find(Auth::id());
+            return view('components.navbar')->with('profile_picture', $filename->filename);
         }
         else {
             return view('components.navbar');

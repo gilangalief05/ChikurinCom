@@ -11,7 +11,9 @@ class buyhistorycontainer extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct(public string $iid)
+    public function __construct(
+        public object $buyhistory,
+    )
     {
         //
     }

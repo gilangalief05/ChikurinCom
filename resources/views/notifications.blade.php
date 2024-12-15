@@ -1,13 +1,15 @@
 <x-layout>
-    <x-slot:title>{{ $uname }} - Overview</x-slot:title>
-    <x-profile uid="{{ $uid }}" uname="{{ $uname }}" filename="{{ $filename }}" />
+    <x-slot:title>{{ $user->name }} - Overview</x-slot:title>
+    <x-profile :$user />
     <div class="container mx-auto my-4">
         <div class="my-2">
             <ul class="nav nav-tabs w-100">
                 @foreach($menu_list as $id => $menu_l)
-                <li class="nav-item">
-                    <a class="nav-link {{$menu_l == $menu ? 'active' : '' }}" aria-current="page" href="/u/{{ $uid }}/{{ $menu_l }}">{{ $menu_name_list[$id] }}</a>
-                </li>
+                    @if(Auth::id() == $user->id || $id < 2)
+                    <li class="nav-item">
+                        <a class="nav-link {{$menu_l == $menu ? 'active' : '' }}" aria-current="page" href="{{route('user.'.$menu_l, ['uid' => $user->id])}}">{{ $menu_name_list[$id] }}</a>
+                    </li>
+                    @endif
                 @endforeach
             </ul>
         </div>
@@ -18,5 +20,4 @@
             @endfor
         </div>
     </div>
-    
 </x-layout>

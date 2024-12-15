@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\UsersBio;
 use App\Models\UsersPicture;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -39,15 +40,22 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
+        $file = $request->profile_picture;
+        $filename = "default.jpg";
+
         if($request->has('profile_picture')) {
-            //
+            $extension = $file->getClientOriginalExtension();
+            $filename = $user->id.'.'.$extension;
+            $path = $file->storeAs('profile_picture/', $user->id.'.'.$extension, 'public');
         }
-        else {
-            $picture = UsersPicture::create([
-                'user_id' => Auth::id(),
-                'filename' => 'default.jpg',
-            ]);
-        }
+        $profile_picture = UsersPicture::create([
+            'user_id' => $user->id,
+            'filename' => $filename,
+        ]);
+
+        $user_bio = UsersBio::create([
+            'user_id' => $user->id,
+        ]);
 
         return redirect('/');
     }

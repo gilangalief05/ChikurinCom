@@ -11,21 +11,20 @@
 </style>
 <nav class="navbar bg-body-tertiary">
     <div class="container-fluid">
-        <a href="/" class="navbar-brand d-flex align-items-center">
+        <a href="{{route('home')}}" class="navbar-brand d-flex align-items-center">
             <img src="/chikurincom_logo.svg" class="mx-1" width="24px" alt="Logo Chikurincom">
-            <span class="mx-2">ChikurinCom</span>
+            <span class="mx-2">ChikurinKom</span>
         </a>
         <!-- Pencarian -->
-        <form action="" class="d-flex align-items-center input-group w-50" id="text_search" role="search">
-            @csrf
+        <form action="{{route('search.get')}}" class="d-flex align-items-center input-group w-50" id="text_search" role="search">
             <div class="input-group">
-                <input class="form-control" type="search" placeholder="Search" aria-label="Search" required>
+                <input class="form-control" type="search" name="search" placeholder="Search" aria-label="Search" required>
                 <button class="btn btn-primary material-icons" type="submit">search</button>
                 <button class="btn btn-primary" onclick="img_search_visible()" type="button">text</button>
             </div>
         </form>
         
-        <form action="/image_search" class="d-none align-items-center w-50" id="img_search" method="POST" enctype="multipart/form-data">
+        <form action="{{route('image_search.upload')}}" class="d-none align-items-center w-50" id="img_search" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="input-group">
                 <input type="file" class="form-control" id="image_for_search" name="image_for_search" required>
@@ -54,40 +53,37 @@
         </script>
         
         <div class="d-flex align-items-center">
-            @if (!Auth::check())
-            <a href="/register" role="button" class="btn btn-outline-primary m-1">Register</a>
-            <a href="/login" role="button" class="btn btn-primary m-1">Login</a>
-            @else
-            <a href="/u/{{ Auth::id() }}/carts" class="btn position-relative" role="button">
-                <span class="material-icons mt-1">shopping_cart</span>
-                <span class="position-absolute top-10 start-90 translate-middle p-1 bg-danger rounded-circle">
-                    <span class="visually-hidden">New alerts</span>
-                </span>
+            <a href="{{route('image_search.form')}}" class="btn" role="button">
+                <span class="material-icons mt-1">image_search</span>
             </a>
-            <a href="/u/{{ Auth::id() }}/notifications" class="btn" role="button">
+            @if (!Auth::check())
+            <a href="{{route('get.register')}}" role="button" class="btn btn-outline-primary m-1">Register</a>
+            <a href="{{route('get.login')}}" role="button" class="btn btn-primary m-1">Login</a>
+            @else
+            <a href="{{route('user.notifications', ['uid' => Auth::id()])}}" class="btn" role="button">
                 <span class="material-icons mt-1">notifications</span>
-                <span class="position-absolute top-10 start-90 translate-middle p-1 bg-danger rounded-circle">
+                <!-- <span class="position-absolute top-10 start-90 translate-middle p-1 bg-danger rounded-circle">
                     <span class="visually-hidden">New alerts</span>
-                </span>
+                </span> -->
             </a>
             <div class="dropdown d-flex align-items-center">
                 <button class="btn dropdown-toggle profile-navbar p-0" data-bs-toggle="dropdown" aria-expanded="false">
                     <span class="mx-2">{{ Auth::user()->name }}</span>
-                    <img src="{{ asset('storage/profile_picture/'.$filename) }}" class="img-cover rounded-circle">
+                    <img src="{{ asset('storage/profile_picture/'.$profile_picture) }}" class="object-fit-cover rounded-circle" width="32px" height="32px">
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li class="d-grid">
-                        <a href="/u/{{ Auth::id() }}" role="button" class="btn text-start d-flex align-items-center">
+                        <a href="{{route('user.overview', ['uid' => Auth::id()])}}" role="button" class="btn text-start d-flex align-items-center">
                             <span class="material-icons">person</span> Profil
                         </a>
                     </li>
                     <li class="d-grid">
-                        <a href="/u/{{ Auth::id() }}/wishlists" role="button" class="btn text-start d-flex align-items-center">
+                        <a href="{{route('user.wishlists', ['uid' => Auth::id()])}}" role="button" class="btn text-start d-flex align-items-center">
                             <span class="material-icons">bookmark</span> Wishlist
                         </a>
                     </li>
                     <li class="d-grid">
-                        <form action="/logout" method="POST" class="">
+                        <form action="{{route('logout')}}" method="POST" class="">
                             @csrf
                             <button class="btn text-danger text-start d-flex align-items-center" type="submit"><span class="material-icons">logout</span> Log Out</button>
                         </form>

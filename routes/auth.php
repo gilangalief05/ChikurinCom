@@ -6,6 +6,8 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UsersBioController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [RegisteredUserController::class, 'store'])
@@ -36,6 +38,12 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
 
-Route::post('/u/{uid}/edit_user', [AuthenticatedSessionController::class, 'update'])
+Route::patch('/edit_user', [ProfileController::class, 'update'])
     ->middleware('auth')
-    ->name('update');
+    ->name('user.update');
+
+Route::post('/edit_bio', [UsersBioController::class, 'update'])->middleware('auth')->name('bio.update');
+
+Route::delete('/delete_user', [ProfileController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('user.delete');

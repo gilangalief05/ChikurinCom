@@ -12,9 +12,7 @@ class profile extends Component
      * Create a new component instance.
      */
     public function __construct(
-        public string $uid,
-        public string $uname,
-        public string $filename,
+        public object $user,
     )
     {
         //

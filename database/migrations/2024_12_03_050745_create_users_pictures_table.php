@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('users_pictures', function (Blueprint $table) {
             $table->id();
-            $table->string('filename');
+            $table->string('filename')->default('default.jpg');
             $table->foreignId('user_id')
                 ->constrained(table: 'users', indexName: 'id')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

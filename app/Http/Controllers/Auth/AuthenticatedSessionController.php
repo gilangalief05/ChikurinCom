@@ -38,17 +38,4 @@ class AuthenticatedSessionController extends Controller
 
         return redirect('/');
     }
-
-    public function update(Request $request): RedirectResponse
-    {
-
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-        ]);
-        
-        User::where('id', $request->id)
-        ->update(['name' => $request->name, 'updated_at' => Carbon::now()]);
-
-        return redirect('/u/'.$request->id);
-    }
 }

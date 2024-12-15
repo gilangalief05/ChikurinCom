@@ -13,6 +13,4 @@ class UsersPicture extends Model
         'user_id',
         'filename',
     ];
-
-    public $timestamps = false;
 }

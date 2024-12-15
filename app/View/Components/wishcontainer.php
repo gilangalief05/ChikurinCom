@@ -12,7 +12,7 @@ class wishcontainer extends Component
      * Create a new component instance.
      */
     public function __construct(
-        public string $iid,
+        public object $wishlist,
     )
     {
         //
