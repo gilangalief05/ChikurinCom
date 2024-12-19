@@ -25,7 +25,7 @@ class navbar extends Component
     {
         if(Auth::check()) {
             $filename = UsersPicture::find(Auth::id());
-            return view('components.navbar')->with('profile_picture', $filename->filename);
+            return view('components.navbar', ['profile_picture' => $filename->filename]);
         }
         else {
             return view('components.navbar');
